@@ -4,8 +4,23 @@ const express = require('express');
 // bring in handlebars
 const exphbs = require('express-handlebars');
 
+// bring in mongoose
+const mongoose = require('mongoose');
+
 // create a variable to initialize our application
 const app = express();
+
+// map global promise - get rid of warning
+mongoose.Promise = global.Promise;
+
+// connect to mongoose
+mongoose.connect('mongodb://localhost/vidjot-dev')
+    .then(() => console.log('MongoDB Connected... '))
+    .catch(err => console.log(err)); 
+
+// load idea model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
 
 // handlebars middleware
 // telling the system that we want to use the handlebars engine
@@ -27,6 +42,17 @@ app.get('/', (req, res) => {
 // about route, renders about handlebar 
 app.get('/about', (req, res) => {
     res.render('about');
+})
+
+// add idea route 
+app.get('/ideas/add', (req, res) => {
+    res.render('ideas/add');
+})
+
+// process form - post request
+app.post('/ideas', (req, res)=> {
+    
+    res.send('ok');
 })
 
 // create a variable for the port
