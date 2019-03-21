@@ -9,12 +9,14 @@ const app = express();
 
 // handlebars middleware
 // telling the system that we want to use the handlebars engine
+// default layout refers to objects of a page that must render continuosly such as the menu tabs
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
-// index route
+// index route, renders index handlebar, we passed the variable title to the views
+// the parameter is passed by adding a variable of title on the render function
 app.get('/', (req, res) => {
     const title = 'Welcome';
     res.render('index', {
@@ -22,7 +24,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// about route
+// about route, renders about handlebar 
 app.get('/about', (req, res) => {
     res.render('about');
 })
