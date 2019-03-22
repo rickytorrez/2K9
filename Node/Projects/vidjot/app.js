@@ -4,6 +4,9 @@ const express = require('express');
 // bring in handlebars
 const exphbs = require('express-handlebars');
 
+// bring in body-parser
+const bodyParser = require('body-parser');
+
 // bring in mongoose
 const mongoose = require('mongoose');
 
@@ -44,15 +47,47 @@ app.get('/about', (req, res) => {
     res.render('about');
 })
 
+// body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 // add idea route 
 app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 })
 
 // process form - post request
+// validations 
 app.post('/ideas', (req, res)=> {
-    
-    res.send('ok');
+    let errors = [];
+    if(!req.body.title) {
+        errors.push({text: 'Please add a title'})
+    }
+    if(!req.body.details) {
+        errors.push({text: 'Please add some details'})
+    }
+
+    if(errors.length > 0) {
+        res.render('ideas/add', {
+            errors: errors,
+            title: req.body.title,
+            details: req.body.details
+        });
+
+// after validation passes, add the idea to the DB
+    } else {
+        const newUser = {
+            title: req.body.title,
+            details: req.body.details
+        }
+
+// Use a promise to return the idea and redirect to the ideas listing page
+        new Idea(newUser)
+            .save()
+            .then(idea => {
+                res.redirect('/ideas');
+            })
+    }
 })
 
 // create a variable for the port
