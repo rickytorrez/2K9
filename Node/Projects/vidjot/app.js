@@ -19,6 +19,9 @@ const session = require('express-session');
 // bring in body-parser
 const bodyParser = require('body-parser');
 
+// bring in passport
+const passport = require('passport');
+
 // bring in mongoose
 const mongoose = require('mongoose');
 
@@ -31,6 +34,9 @@ const ideas = require('./routes/ideas');
 
 // load ideas routes to crud users to our db
 const users = require('./routes/users');
+
+// passport config - necessary for our local strategy. Need to pass an instance of passport
+require('./config/passport')(passport);
 
 // map global promise - get rid of warning
 mongoose.Promise = global.Promise;

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-// const passport = require('passport');
+const passport = require('passport');
 const router = express.Router();
 
 // load user model
@@ -62,7 +62,7 @@ router.post('/register', (req, res) => {
                         password: req.body.password
                     })
 
-                    // encrypt the password
+// encrypt the password
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) throw err;
@@ -83,5 +83,13 @@ router.post('/register', (req, res) => {
     }
 });
 
+// login form post
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/ideas',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
+});
 
 module.exports = router;
