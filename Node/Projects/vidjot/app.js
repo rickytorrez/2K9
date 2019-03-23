@@ -1,6 +1,9 @@
 // bring in express, whenever you install a module and want to bring it in, you must use the require word
 const express = require('express');
 
+// bring in the path module 
+const path = require('path');
+
 // bring in handlebars
 const exphbs = require('express-handlebars');
 
@@ -22,6 +25,13 @@ const mongoose = require('mongoose');
 // create a variable to initialize our application
 const app = express();
 
+// load routes
+// load ideas routes to crud ideas to our db
+const ideas = require('./routes/ideas');
+
+// load ideas routes to crud users to our db
+const users = require('./routes/users');
+
 // map global promise - get rid of warning
 mongoose.Promise = global.Promise;
 
@@ -29,10 +39,6 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/vidjot-dev')
     .then(() => console.log('MongoDB Connected... '))
     .catch(err => console.log(err)); 
-
-// load idea model
-require('./models/Idea');
-const Idea = mongoose.model('ideas');
 
 // handlebars middleware
 // telling the system that we want to use the handlebars engine
@@ -45,6 +51,9 @@ app.set('view engine', 'handlebars');
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// static folder middleware
+app.use(express.static(path.join(__dirname, 'public')))
 
 // method-override middleware
 app.use(methodOverride('_method'));
@@ -81,103 +90,12 @@ app.get('/about', (req, res) => {
     res.render('about');
 })
 
-// idea index route
-app.get('/ideas', (req, res)=> {
+// use routes
+// anything that has an "/ideas" will pertain to that ideas file on the routes
+app.use('/ideas', ideas)
 
-// fetch the ideas from the db and pass them to the render
-// finds all the ideas
-    Idea.find({})
-
-// sorts them by date, descending
-        .sort({date:'desc'})
-
-// return the ideas to the index
-        .then(ideas => {
-            res.render('ideas/index', {
-                ideas:ideas
-            });
-        });
-})
-
-// add idea route 
-app.get('/ideas/add', (req, res) => {
-    res.render('ideas/add');
-})
-
-// edit idea route 
-app.get('/ideas/edit/:id', (req, res) => {
-// find one specific idea instead of the array
-    Idea.findOne({
-
-// match the _id with whatever is in the url
-        _id: req.params.id
-    })
-
-// promise to get the single idea and render by passing it in as a parameter
-    .then(idea => {
-        res.render('ideas/edit', {
-            idea:idea
-        });
-    });
-});
-
-// post process 
-app.post('/ideas', (req, res) => {
-    let errors = [];
-  
-    if(!req.body.title){
-        errors.push({text:'Please add a title'});
-    }
-    if(!req.body.details){
-        errors.push({text:'Please add some details'});
-    }
-  
-    if(errors.length > 0){
-        res.render('ideas/add', {
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details
-        });
-    } else {
-        const newUser = {
-            title: req.body.title,
-            details: req.body.details
-        }
-        new Idea(newUser)
-            .save()
-            .then(idea => {
-                req.flash('success_msg', 'Video idea added');
-                res.redirect('/ideas');
-        })
-    }
-});
-
-// edit form process
-app.put('/ideas/:id', (req, res)=> {
-    Idea.findOne({
-        _id: req.params.id
-    })
-    .then(idea => {
-// new values
-        idea.title = req.body.title;
-        idea.details = req.body.details;
-
-        idea.save()
-            .then(idea => {
-                req.flash('success_msg', 'Video idea updated');
-                res.redirect('/ideas');
-            })
-    })
-});
-
-// delete idea
-app.delete('/ideas/:id', (req,res) => {
-    Idea.remove({_id: req.params.id})
-        .then(() => {
-            req.flash('error_msg', 'Video idea removed');
-            res.redirect('/ideas');
-        })
-});
+// anything that has an "/users" will pertain to that users file on the routes
+app.use('/users', users)
 
 // create a variable for the port
 const port = 5000;
