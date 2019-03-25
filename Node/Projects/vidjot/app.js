@@ -71,6 +71,10 @@ app.use(session ({
     saveUninitialized: true
 }))
 
+// passport middleware - always put this after express-session
+app.use(passport.initialize());
+app.use(passport.session());
+
 // flash middleware
 app.use(flash());
 
@@ -79,6 +83,9 @@ app.use(function(req, res, next){
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
+
+// the global user variable will be there if there's a user logged in, if not, it will be set to null
+    res.locals.user = req.user || null;
     next();
 });
 
