@@ -15,6 +15,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <!-- if there's a user, give them access to their ideas and to create a new idea -->
                 {{#if user}}
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Video Ideas</a>
@@ -23,6 +24,10 @@
                             <a href="/ideas/add" class="dropdown-item">Add Idea</a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a href="/users/logout" class="nav-link">Logout</a>
+                    </li>
+                <!-- if not, let them register or login -->
                 {{else}}
                     <li class="nav-item">
                         <a href="/users/login" class="nav-link">Login</a>
