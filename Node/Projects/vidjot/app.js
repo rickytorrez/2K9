@@ -38,11 +38,14 @@ const users = require('./routes/users');
 // passport config - necessary for our local strategy. Need to pass an instance of passport
 require('./config/passport')(passport);
 
+// db config
+const db = require('./config/database');
+
 // map global promise - get rid of warning
 mongoose.Promise = global.Promise;
 
 // connect to mongoose
-mongoose.connect('mongodb://localhost/vidjot-dev')
+mongoose.connect(db.mongoURI)
     .then(() => console.log('MongoDB Connected... '))
     .catch(err => console.log(err)); 
 
@@ -111,7 +114,7 @@ app.use('/ideas', ideas)
 app.use('/users', users)
 
 // create a variable for the port
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // create a listen method to access our app on a port
 app.listen(port, () => {
