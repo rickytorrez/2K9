@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Ricky Torrez",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
