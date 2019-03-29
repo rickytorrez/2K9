@@ -48,7 +48,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// set global variables
+// set global variables - let's us check for user logged in throughout the app
 app.use((req, res, next) => {
     res.locals.user = req.user || null;
     next();
