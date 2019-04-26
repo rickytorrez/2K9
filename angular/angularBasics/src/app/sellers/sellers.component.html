@@ -1,0 +1,5 @@
+<!-- input property binding - dom property of hidden tied to the seller.component - this.hide global variable -->
+<b [hidden]="hide">{{ getSellers() }}</b>
+
+<!-- output event binding - when toggle button is pressed, access the toggle fundtion on the component.ts file -->
+<input type="button" value="Toggle" (click)="toggle()">

@@ -1,0 +1,7 @@
+<h4>ATM exercise</h4>
+<div [ngSwitch]="atmOption">
+  <div *ngSwitchCase="1">deposit</div>
+  <div *ngSwitchCase="2">withdrawal</div>
+  <div *ngSwitchCase="3">check balance</div>
+  <div *ngSwitchDefault>invalid entry</div>
+</div>

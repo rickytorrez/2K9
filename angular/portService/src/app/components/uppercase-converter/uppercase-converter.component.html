@@ -1,0 +1,9 @@
+<!--
+Added an input type so the data is binded
+and converted to a uppercase on click of the button
+and the data will be returned -->
+
+<input type="text" [(ngModel)]= "my_message"/>
+<button (click)="convert({'message':my_message})">Submit</button>
+<br>
+<h1 style="color: red">{{ result | json}}</h1>
