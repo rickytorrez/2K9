@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HelloServiceService } from '../../services/hello-service.service';
 import { CustomerServiceService } from '../../services/customer-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-multiple-services',
@@ -24,8 +25,17 @@ export class MultipleServicesComponent implements OnInit {
    * by using the helloService service and its helloService response method,
    * the app subscribes to the response */    
   ngOnInit() {
+    
+    /** 
     this._helloService.helloService().subscribe(res=>this.helloResponse=res);
     this._customerService.getCustomers().subscribe(res=>this.customerResponse=res);
+    */
+
+    forkJoin([this._helloService.helloService(), this._customerService.getCustomers()])
+      .subscribe(response=>{
+        this.helloResponse=response[0];
+        this.customerResponse=response[1];
+      })
   }
 
 }
