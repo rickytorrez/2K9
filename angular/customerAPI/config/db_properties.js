@@ -1,5 +1,5 @@
 module.exports = {
-    host: "locahost",
+    host: "localhost",
     user: "root",
     password: "root",
     dbName: "042519_customerAPI"
