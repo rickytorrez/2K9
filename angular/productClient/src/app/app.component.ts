@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductDataService } from './services/product-data.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'productClient';
+  
+  private products:any;
+
+  constructor(private _pDS:ProductDataService){}
+
+  /* display the product as soon as the service is initialized */
+  ngOnInit(){
+    this._pDS.getProducts().subscribe(res=>{
+      this.products = res;
+    })
+  }
+
 }
