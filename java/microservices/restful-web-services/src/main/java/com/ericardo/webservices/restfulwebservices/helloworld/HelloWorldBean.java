@@ -1,4 +1,4 @@
-package com.ericardo.webservices.restfulwebservices;
+package com.ericardo.webservices.restfulwebservices.helloworld;
 
 public class HelloWorldBean {
 
