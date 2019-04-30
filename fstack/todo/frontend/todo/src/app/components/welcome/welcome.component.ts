@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  name = '';
+
+  // dependency injection to pass a parameter
+  constructor(private _route:ActivatedRoute) { }
 
   ngOnInit() {
+    // assigns the parameter passed as name to our variable name in this component
+    this.name = this._route.snapshot.params['name']
   }
 
 }

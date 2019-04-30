@@ -8,7 +8,7 @@ import { ErrorComponent } from './components/error/error.component';
 const routes: Routes = [
     { path:'', component: LoginComponent },
     { path:'login', component: LoginComponent },
-    { path:'welcome', component: WelcomeComponent },
+    { path:'welcome/:name', component: WelcomeComponent },
 
     // Every other path is defined, lead to the error component if client hits an unknown route
     { path:'**', component: ErrorComponent },
