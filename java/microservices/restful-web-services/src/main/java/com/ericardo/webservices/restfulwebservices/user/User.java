@@ -3,11 +3,18 @@ package com.ericardo.webservices.restfulwebservices.user;
 import java.util.Date;
 
 public class User {
-
+	
+	// attributes
 	private Integer id;
 	private String name;
 	private Date birthDate;
 	
+	// default - no argument constructor
+	protected User() {
+		
+	}
+	
+	// constructor
 	public User(Integer id, String name, Date birthDate) {
 		super();
 		this.id = id;
@@ -15,6 +22,7 @@ public class User {
 		this.birthDate = birthDate;
 	}
 	
+	// gets and sets
 	public Integer getId() {
 		return id;
 	}
@@ -34,6 +42,7 @@ public class User {
 		this.birthDate = birthDate;
 	}
 	
+	// toString
 	@Override
 	public String toString() {
 		return String.format("User [id=%s, name=%s, birthDate=%s]", id, name, birthDate);
