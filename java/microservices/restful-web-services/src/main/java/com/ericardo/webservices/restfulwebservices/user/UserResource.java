@@ -3,6 +3,8 @@ package com.ericardo.webservices.restfulwebservices.user;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,7 +42,7 @@ public class UserResource {
 	
 	// create user - POST /users
 	@PostMapping("/users")
-	public ResponseEntity<Object> createUser(@RequestBody User user) {
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 		User savedUser = _uDS.save(user);
 		
 		// returns created status - "201 Created" - also return the location of the created object in the header

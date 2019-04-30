@@ -2,8 +2,10 @@ package com.ericardo.webservices.restfulwebservices.exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ import com.ericardo.webservices.restfulwebservices.user.UserNotFoundException;
 public class CustomizedResponseEntityExceptionHangler 
 extends ResponseEntityExceptionHandler {
 
+	// deals with internal server errors
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllException
 		(Exception ex, WebRequest request){
@@ -26,11 +29,24 @@ extends ResponseEntityExceptionHandler {
 		return new ResponseEntity(_exRes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// deals with a user not being found in the database
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<Object> handleUserNotFound
 		(UserNotFoundException ex, WebRequest request){
+		
 		ExceptionResponse _exRes = new ExceptionResponse(new Date(), ex.getMessage(), 
 				request.getDescription(false));
+		
 		return new ResponseEntity(_exRes, HttpStatus.NOT_FOUND);
 	}
+	
+	// deals with the validation for creating a new user
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
+				ex.getBindingResult().toString());
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+	
 }
