@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   public handleLogin(){
     if (this.username === "ricky" && this.password === "test"){
+      
       // redirect to welcome page
       this._router.navigate(['welcome', this.username])
       this.invalidLogin = false;
