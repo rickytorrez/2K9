@@ -4,7 +4,12 @@
 
   Welcome to our app! You can check your todos in the link bellow <a routerLink="/todos">here</a>
 </div>
-<div>
+<div class="container">
   Click here to get  a customized welcome message
-  <button (click)="getWelcomeMessage()" class="btn btn-success">Get Message</button>
+  <button (click)="getWelcomeMessageWithParameter()" class="btn btn-success">Get Message</button>
+</div>
+<br><br><br><br>
+<div class="container" *ngIf="welcomeMessageFromService">
+  <h3>Your customized welcome message</h3>
+  <p>{{ welcomeMessageFromService }}</p>
 </div>
