@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TodoDataService } from 'src/app/services/data/todo-data.service';
+import { TouchSequence } from 'selenium-webdriver';
 
 export class Todo{
   constructor(
@@ -18,15 +20,19 @@ export class Todo{
 })
 export class ListTodosComponent implements OnInit {
 
-  todos = [
-    new Todo(1, 'Take a nap', false, new Date()),
-    new Todo(2, 'Get some lunch', false, new Date()),
-    new Todo(2, 'Go to work', false, new Date())
-  ]
+  todos: Todo []
 
-  constructor() { }
+  constructor(
+    private _tDS: TodoDataService
+  ) { }
 
   ngOnInit() {
+    this._tDS.retrieveAllTodos('ricky').subscribe(
+      response => {
+        console.log(response);
+        this.todos = response;
+      }
+    )
   }
 
 }

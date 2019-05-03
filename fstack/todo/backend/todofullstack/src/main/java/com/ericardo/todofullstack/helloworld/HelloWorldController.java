@@ -1,4 +1,4 @@
-package com.ericardo.todofullstack;
+package com.ericardo.todofullstack.helloworld;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

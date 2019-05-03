@@ -1,4 +1,4 @@
-package com.ericardo.todofullstack;
+package com.ericardo.todofullstack.helloworld;
 
 public class HelloWorldBean {
 
